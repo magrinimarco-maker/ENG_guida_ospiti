@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guest Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Lato', sans-serif; background: #fdf6f0; color: #3a2e28; min-height: 100vh; }
+
+  #home { padding: 30px 24px; text-align: center; }
+  .logo { margin-bottom: 4px; }
+  .logo img { width: 180px; height: auto; }
+  .home-welcome { background: white; border-radius: 14px; padding: 18px 20px; margin-bottom: 10px; border: 1px solid #f0e0d0; font-size: 0.88em; color: #5a4035; line-height: 1.7; text-align: center; }
+  .home-welcome p { margin-bottom: 8px; }
+  .home-welcome p:first-child { font-size: 1.1em; font-weight: bold; color: #7a4f3a; }
+  .home-welcome p:last-child { margin-bottom: 0; }
+  .property-card { background: #fff8f3; border: 1.5px solid #e8d5c4; border-radius: 18px; padding: 22px 20px; margin-bottom: 16px; cursor: pointer; text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 16px; }
+  .property-card:hover { background: #fff0e4; transform: translateY(-2px); box-shadow: 0 6px 20px #e8c9a830; }
+  .prop-icon { font-size: 2em; }
+  .prop-name { font-size: 1.1em; font-weight: bold; color: #7a4f3a; }
+  .prop-arrow { margin-left: auto; color: #c9956a; font-size: 1.3em; }
+
+  #guide { display: none; }
+  .guide-header { background: var(--header-bg); color: white; padding: 28px 20px 20px; text-align: center; position: relative; }
+  .back-btn { position: absolute; left: 16px; top: 28px; background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 50%; width: 38px; height: 38px; font-size: 1.1em; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .guide-prop-icon { font-size: 2.5em; margin-bottom: 4px; }
+  .guide-prop-name { font-size: 1.4em; font-weight: bold; }
+  .guide-prop-addr { font-size: 0.85em; opacity: 0.85; margin-top: 2px; }
+
+  .tabs { display: flex; background: #fff8f3; border-bottom: 2px solid #e8d5c4; overflow-x: auto; }
+  .tab { flex: 1; min-width: 60px; padding: 12px 4px 10px; text-align: center; cursor: pointer; font-size: 0.65em; color: #a07060; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: bold; }
+  .tab-icon { font-size: 1.5em; display: block; margin-bottom: 2px; }
+
+  .content { padding: 20px 18px 40px; max-width: 480px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-title { font-size: 1.2em; color: #7a4f3a; margin-bottom: 16px; font-weight: bold; }
+
+  .card { background: white; border-radius: 14px; padding: 16px 18px; margin-bottom: 14px; border: 1px solid #f0e0d0; box-shadow: 0 2px 8px #e8c9a818; }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .card-icon { font-size: 1.4em; }
+  .card-title { font-weight: bold; color: #7a4f3a; font-size: 0.95em; }
+  .card-body { font-size: 0.88em; color: #5a4035; line-height: 1.6; }
+  .wifi-box { background: #fff3ea; border-radius: 10px; padding: 12px 14px; margin-top: 8px; font-family: monospace; font-size: 1.1em; letter-spacing: 1px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .rule { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .rule-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .highlight { background: #fff3ea; border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 8px 0; font-size: 0.88em; color: #5a4035; }
+  .contact-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0e0d0; }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-name { font-weight: bold; color: #7a4f3a; font-size: 0.9em; }
+  .contact-role { font-size: 0.78em; color: #a07060; }
+  .contact-num { margin-left: auto; font-size: 0.85em; color: var(--accent); font-weight: bold; }
+  .local-item { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .local-icon { font-size: 1.5em; flex-shrink: 0; }
+  .local-name { font-weight: bold; color: #7a4f3a; font-size: 0.9em; }
+  .local-info { font-size: 0.82em; color: #8a6050; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home">
+  <div class="logo">
+    <img src="logo.png" alt="Radicofani Vacanze in Valdorcia"/>
+  </div>
+  <div class="home-welcome">
+    <p>Welcome! 🌿</p>
+    <p>We are delighted to have you as our guest. This guide is designed to accompany you throughout your stay: you will find everything you need to know about the house, services, useful contacts and tips to explore the local area.</p>
+    <p>Select your accommodation to get started.</p>
+  </div>
+  <div style="text-align:center; color:#a07060; font-size:1.1em; font-weight:bold; margin:10px 0 16px;">Click on the house where you will be staying</div>
+
+  <div class="property-card" onclick="openGuide(0)">
+    <div class="prop-icon">🌿</div>
+    <div><div class="prop-name">Villetta la Fortezza</div></div>
+    <div class="prop-arrow">›</div>
+  </div>
+
+  <div class="property-card" onclick="openGuide(1)">
+    <div class="prop-icon">🌸</div>
+    <div><div class="prop-name">Appaltino</div></div>
+    <div class="prop-arrow">›</div>
+  </div>
+</div>
+
+<!-- GUIDE -->
+<div id="guide">
+  <div class="guide-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div class="guide-prop-icon" id="g-icon"></div>
+    <div class="guide-prop-name" id="g-name"></div>
+    <div class="guide-prop-addr" id="g-addr"></div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab(0)"><span class="tab-icon">📶</span>WiFi</div>
+    <div class="tab" onclick="showTab(1)"><span class="tab-icon">📋</span>Rules</div>
+    <div class="tab" onclick="showTab(2)"><span class="tab-icon">🔧</span>Info</div>
+    <div class="tab" onclick="showTab(3)"><span class="tab-icon">📍</span>Local</div>
+    <div class="tab" onclick="showTab(4)"><span class="tab-icon">🌄</span>Around</div>
+    <div class="tab" onclick="showTab(5)"><span class="tab-icon">📞</span>Contacts</div>
+  </div>
+
+  <div class="content">
+
+    <!-- WIFI -->
+    <div class="section active" id="sec-0">
+      <div class="section-title">📶 WiFi & Devices</div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">📡</span><span class="card-title">WiFi Connection</span></div>
+        <div class="card-body">Network: <strong id="wifi-name"></strong><div class="wifi-box">🔑 <span id="wifi-pass"></span></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">📺</span><span class="card-title">Television</span></div>
+        <div class="card-body" id="tv-info"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🌡️</span><span class="card-title">Heating</span></div>
+        <div class="card-body" id="ac-info"></div>
+      </div>
+    </div>
+
+    <!-- RULES -->
+    <div class="section" id="sec-1">
+      <div class="section-title">📋 House Rules</div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🕐</span><span class="card-title">Check-in / Check-out</span></div>
+        <div class="card-body" id="checkin-info"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🔇</span><span class="card-title">Quiet Hours</span></div>
+        <div class="card-body">
+          <div class="rule"><div class="rule-dot"></div><div>Quiet hours from <strong>10:30 PM</strong> to <strong>8:00 AM</strong></div></div>
+          <div class="rule"><div class="rule-dot"></div><div>Keep music at low volume in the evening</div></div>
+          <div class="rule"><div class="rule-dot"></div><div>Please respect neighbours and common areas</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🚭</span><span class="card-title">General Rules</span></div>
+        <div class="card-body" id="smoke-info"></div>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="section" id="sec-2">
+      <div class="section-title">🔧 Useful Information</div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🔑</span><span class="card-title">Keys & Access</span></div>
+        <div class="card-body" id="keys-info"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🔥</span><span class="card-title">Utilities & Systems</span></div>
+        <div class="card-body" id="boiler-info"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🗑️</span><span class="card-title">Waste Disposal</span></div>
+        <div class="card-body" id="waste-info"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🚗</span><span class="card-title">Parking</span></div>
+        <div class="card-body" id="parking-info"></div>
+      </div>
+    </div>
+
+    <!-- LOCAL -->
+    <div class="section" id="sec-3">
+      <div class="section-title">📍 Local Tips</div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🛒</span><span class="card-title">Supermarkets & Shops</span></div>
+        <div class="card-body" id="shops-info"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🍽️</span><span class="card-title">Recommended Restaurants</span></div>
+        <div class="card-body" id="food-info"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🌐</span><span class="card-title">Website & App</span></div>
+        <div class="card-body" id="visit-info"></div>
+      </div>
+    </div>
+
+    <!-- AROUND -->
+    <div class="section" id="sec-4">
+      <div class="section-title">🌄 Things to do nearby</div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🏰</span><span class="card-title">Villages & Culture</span></div>
+        <div class="card-body">
+          <div class="local-item"><div class="local-icon">🗼</div><div><div class="local-name">Radicofani</div><div class="local-info">Medieval village with the fortress of Ghino di Tacco and the church of Sant'Agata. Stunning views over the Val d'Orcia.</div></div></div>
+          <div class="local-item"><div class="local-icon">🏛️</div><div><div class="local-name">Pienza</div><div class="local-info">UNESCO World Heritage site, the "ideal Renaissance city". Famous for its DOP pecorino cheese. 30 min away.</div></div></div>
+          <div class="local-item"><div class="local-icon">🍷</div><div><div class="local-name">Montalcino</div><div class="local-info">Home of Brunello, one of Italy's finest wines. Medieval fortress and wineries in the historic centre. 40 min away.</div></div></div>
+          <div class="local-item"><div class="local-icon">⛪</div><div><div class="local-name">Sant'Antimo Abbey</div><div class="local-info">Beautiful Romanesque abbey near Montalcino, surrounded by olive trees. Monks still sing Gregorian chant. 45 min away.</div></div></div>
+          <div class="local-item"><div class="local-icon">🎨</div><div><div class="local-name">Montepulciano</div><div class="local-info">Renaissance hilltop town famous for Vino Nobile. Piazza Grande is one of the most beautiful in Tuscany. 30 min away.</div></div></div>
+          <div class="local-item"><div class="local-icon">🌿</div><div><div class="local-name">Bagno Vignoni</div><div class="local-info">Unique village with a large Renaissance thermal pool at its centre. 20 min away.</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">♨️</span><span class="card-title">Thermal Baths & Wellness</span></div>
+        <div class="card-body">
+          <div class="local-item"><div class="local-icon">💧</div><div><div class="local-name">Bagno Vignoni Thermal Baths</div><div class="local-info">Natural thermal pools with sulphurous water at 52°C. Adler Spa and Posta Marcucci offer access. 20 min away.</div></div></div>
+          <div class="local-item"><div class="local-icon">🌊</div><div><div class="local-name">San Filippo Thermal Springs</div><div class="local-info">Free natural white thermal waterfalls in the forest. One of the most spectacular in Tuscany. 25 min away.</div></div></div>
+          <div class="local-item"><div class="local-icon">🏊</div><div><div class="local-name">Chianciano Terme</div><div class="local-info">Renowned thermal resort with water parks and wellness centres. Great for families. 25 min away.</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🥾</span><span class="card-title">Nature & Hiking</span></div>
+        <div class="card-body">
+          <div class="local-item"><div class="local-icon">🌾</div><div><div class="local-name">Val d'Orcia</div><div class="local-info">UNESCO World Heritage landscape. Rolling hills with cypress trees and clay hills among the most photographed in the world.</div></div></div>
+          <div class="local-item"><div class="local-icon">🌋</div><div><div class="local-name">Monte Amiata</div><div class="local-info">Tuscany's highest extinct volcano (1738 m). Forest trails, mountain biking and skiing in winter. 20 min away.</div></div></div>
+          <div class="local-item"><div class="local-icon">🚶</div><div><div class="local-name">Via Francigena</div><div class="local-info">The ancient pilgrims' route passes through Radicofani. Sections walkable on foot through stunning scenery.</div></div></div>
+          <div class="local-item"><div class="local-icon">🦅</div><div><div class="local-name">Lucciola Bella Nature Reserve</div><div class="local-info">Natural oasis with clay hills and typical Val d'Orcia flora. Great for birdwatching. Free entry.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="section" id="sec-5">
+      <div class="section-title">📞 Useful Contacts</div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">👤</span><span class="card-title">Your Hosts</span></div>
+        <div class="card-body" id="host-info"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🚨</span><span class="card-title">Emergency Numbers</span></div>
+        <div class="card-body">
+          <div class="contact-row"><span style="font-size:1.4em">🚒</span><div><div class="contact-name">Fire Brigade</div></div><div class="contact-num">115</div></div>
+          <div class="contact-row"><span style="font-size:1.4em">🚑</span><div><div class="contact-name">Ambulance</div></div><div class="contact-num">118</div></div>
+          <div class="contact-row"><span style="font-size:1.4em">🚔</span><div><div class="contact-name">Police (Carabinieri)</div></div><div class="contact-num">112</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-icon">🏥</span><span class="card-title">Local Services</span></div>
+        <div class="card-body" id="tech-info"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const themes = [
+  { accent: '#5a8a4a', headerBg: 'linear-gradient(135deg, #6fa35a, #4a7040)' },
+  { accent: '#8a5c3a', headerBg: 'linear-gradient(135deg, #a87050, #6e3e22)' }
+];
+
+const props = [
+  {
+    icon: "🌿", name: "Villetta la Fortezza", addr: "Via G. Marconi, 2 – Radicofani (Siena)",
+    wifi: { name: "villettaradicofani", pass: "villettaradicofani" },
+    tv: `<img src="tv-fortezza.jpg" alt="Remote Controls" style="width:100%;border-radius:10px;margin-bottom:10px;"><br>You have 2 remote controls:<br>• <strong>Remote 1</strong> — turns on the TV and adjusts the volume<br>• <strong>Remote 2</strong> — turns on the decoder and selects channels<br><br><strong>How to use:</strong><br>1. Turn on the decoder with remote 2<br>2. Turn on the TV with remote 1<br>3. The source <strong>HDMI2</strong> should appear top left. If not, press the "Source" button on remote 1.`,
+    ac: "The thermostat is located in the AMIATA bedroom and is already set to the correct temperature. Please do NOT touch it. If you need to adjust the temperature, contact us via WhatsApp at 348-3620431 and we will do it remotely.",
+    checkin: `<div class="rule"><div class="rule-dot"></div><div>Check-out: strictly by <strong>10:00 AM</strong> on the day of departure</div></div><div class="rule"><div class="rule-dot"></div><div>At check-out, leave the keys in the basket on the entrance cabinet</div></div><div class="rule"><div class="rule-dot"></div><div>Tourist tax: <strong>€2/day per adult</strong> only if booked via Booking.com (already included for Airbnb and direct bookings)</div></div>`,
+    smoke: `<div class="highlight">🚭 No smoking inside the house</div><div class="highlight">🎉 No parties or events</div><div class="highlight">🛋️ Do not damage furniture or equipment</div><div class="highlight">✨ Please leave the house clean and tidy as you found it</div>`,
+    keys: "The keys are in a Key-Box in the laundry room at the back of the house (grey door). Once inside, look to the left above the light switch for the small box. Key-Box code: 1991. The key opens only the main door. A duplicate is hanging beside the entrance door. At check-out, leave the keys in the basket on the entrance cabinet. Note: the shower on the upper floor has two knobs on a black panel that require pressing the lock button before turning. Do not force them without pressing the safety button.",
+    boiler: "The electricity and water meters are in a panel behind the door of the living room, to the left of the entrance. Use them only in extreme cases (e.g. power cut or sudden water leak).",
+    waste: "At check-out, please leave rubbish bags tightly closed inside the bins in the laundry room at the back of the house. Always close the laundry room door.",
+    parking: "Free parking in the shaded area in front of the house or inside the gate. The main gate is always open.",
+    shops: `<div class="local-item"><div class="local-icon">🛒</div><div><div class="local-name">La Bottega Sma</div><div class="local-info">Grocery — Viale Luchini 3 | Tel. 0578 55837</div></div></div><div class="local-item"><div class="local-icon">🥖</div><div><div class="local-name">Pane e Companatico</div><div class="local-info">Via del Teatro 4 | Tel. 328 911 6003</div></div></div><div class="local-item"><div class="local-icon">🥩</div><div><div class="local-name">Macelleria Rossi</div><div class="local-info">Via dei Forni 14 | Tel. 0578 55864</div></div></div><div class="local-item"><div class="local-icon">🥩</div><div><div class="local-name">Sandi di Porfirio Sandro</div><div class="local-info">Via Renato Magi 5/a | Tel. 0578 55993</div></div></div><div class="local-item"><div class="local-icon">🍞</div><div><div class="local-name">Forno Clementi</div><div class="local-info">Via dei Forni | Tel. 0578 55692</div></div></div><div class="local-item"><div class="local-icon">🍞</div><div><div class="local-name">Forno Pane Dolci Prodotti Tipici</div><div class="local-info">Via Roma 18 | Tel. 334 310 7080</div></div></div>`,
+    food: `<div class="local-item"><div class="local-icon">🍽️</div><div><div class="local-name">Il Mondo del Rossi</div><div class="local-info">Via Roma 37 | Tel. 339 640 3499</div></div></div><div class="local-item"><div class="local-icon">🍷</div><div><div class="local-name">Ristorante La Grotta</div><div class="local-info">Piazza Sant'Agata 12 | Tel. 0578 55866</div></div></div><div class="local-item"><div class="local-icon">🥂</div><div><div class="local-name">Al Tocco</div><div class="local-info">Panoramic wine bar — Piazza San Pietro</div></div></div>`,
+    visit: `<div class="local-item"><div class="local-icon">📱</div><div><div class="local-name">Visit Radicofani App</div><div class="local-info"><a href="https://apps.apple.com/it/app/visit-radicofani/id1503467853" style="color:#c9956a">Download for iOS</a> &nbsp;|&nbsp; <a href="https://play.google.com/store/apps/details?id=com.ettsolutions.radicofani" style="color:#c9956a">Download for Android</a></div></div></div><div class="local-item"><div class="local-icon">🌐</div><div><div class="local-name">Official website</div><div class="local-info"><a href="https://www.vacanzevaldorcia.it" style="color:#c9956a">www.vacanzevaldorcia.it</a></div></div></div>`,
+    host: `<div class="contact-row"><span style="font-size:1.4em">😊</span><div><div class="contact-name">Marco</div><div class="contact-role">Tel/WhatsApp</div></div><div class="contact-num">348 3620431</div></div><div class="contact-row"><span style="font-size:1.4em">😊</span><div><div class="contact-name">Matilde</div><div class="contact-role">Tel/WhatsApp</div></div><div class="contact-num">380 2078746</div></div>`,
+    tech: `<div class="contact-row"><span style="font-size:1.4em">🚔</span><div><div class="contact-name">Carabinieri Radicofani</div></div><div class="contact-num">0578 55003</div></div><div class="contact-row"><span style="font-size:1.4em">💊</span><div><div class="contact-name">Pharmacy</div><div class="contact-role">Via del Maccione 6</div></div><div class="contact-num">0578 55888</div></div><div class="contact-row"><span style="font-size:1.4em">🏥</span><div><div class="contact-name">A&E – Montepulciano</div></div><div class="contact-num">0578 713111</div></div><div class="contact-row"><span style="font-size:1.4em">🏥</span><div><div class="contact-name">A&E – Abbadia S.S.</div></div><div class="contact-num">0577 7731</div></div><div class="contact-row"><span style="font-size:1.4em">👨‍⚕️</span><div><div class="contact-name">Out of Hours GP</div></div><div class="contact-num">116 117</div></div><div class="contact-row"><span style="font-size:1.4em">🚑</span><div><div class="contact-name">Misericordia Radicofani</div></div><div class="contact-num">0578 55943</div></div><div class="contact-row"><span style="font-size:1.4em">ℹ️</span><div><div class="contact-name">Tourist Office</div><div class="contact-role">Via Renato Magi, 31</div></div><div class="contact-num">0578 55684</div></div>`
+  },
+  {
+    icon: "🌸", name: "Appaltino", addr: "Piazza San Pietro 1 – Radicofani (Siena)",
+    wifi: { name: "appaltino", pass: "appaltinoradicofani" },
+    tv: "The TV has an Amazon Fire Stick installed. To use it, press the Source button on the main remote and select Fire Stick as the input. The account linked is vacanze valdorcia, already set up and ready to use (also valid for Prime Video). You will also find a working record player with vinyl records beside it.",
+    ac: "The thermostat is located in the entrance hall and is already set to the correct temperature. Please do NOT touch it. If you need to adjust the temperature, contact us via WhatsApp at 348-3620431 and we will do it remotely.",
+    checkin: `<div class="rule"><div class="rule-dot"></div><div>Check-out: strictly by <strong>10:00 AM</strong> on the day of departure</div></div><div class="rule"><div class="rule-dot"></div><div>At check-out, leave the keys in the dish on the entrance cabinet (next to the WiFi router)</div></div><div class="rule"><div class="rule-dot"></div><div>Tourist tax: <strong>€2/day per adult</strong> only if booked via Booking.com (already included for Airbnb and direct bookings)</div></div>`,
+    smoke: `<div class="highlight">🚭 No smoking inside the house</div><div class="highlight">🎉 No parties or events</div><div class="highlight">🛋️ Do not damage furniture or equipment</div><div class="highlight">🍾 The bottles in the bar cabinet are for display only and are not for use</div><div class="highlight">✨ Please leave the house clean and tidy as you found it</div>`,
+    keys: "Access is via a numeric keypad to the right of the front door. Code: 1234 + up arrow. Type 1-2-3-4 then press the up arrow key. The code is valid for the entire duration of your stay. Once inside, you will find the keys in the dish on the entrance cabinet next to the WiFi modem. At check-out, leave the keys in the same dish. Note: the shower on the upper floor has two knobs on a white panel that require pressing the lock button before turning. Do not force them without pressing the safety button.",
+    boiler: "The electricity meter is in a glass-fronted panel at the bottom of the entrance stairs. Use it only in extreme cases (e.g. power cut due to overload).",
+    waste: "At check-out, please leave rubbish bags tightly closed under the kitchen sink.",
+    parking: "The house is located in a pedestrian zone. Please park in the designated spaces outside the pedestrian area.",
+    shops: `<div class="local-item"><div class="local-icon">🛒</div><div><div class="local-name">La Bottega Sma</div><div class="local-info">Grocery — Viale Luchini 3 | Tel. 0578 55837</div></div></div><div class="local-item"><div class="local-icon">🥖</div><div><div class="local-name">Pane e Companatico</div><div class="local-info">Via del Teatro 4 | Tel. 328 911 6003</div></div></div><div class="local-item"><div class="local-icon">🥩</div><div><div class="local-name">Macelleria Rossi</div><div class="local-info">Via dei Forni 14 | Tel. 0578 55864</div></div></div><div class="local-item"><div class="local-icon">🥩</div><div><div class="local-name">Sandi di Porfirio Sandro</div><div class="local-info">Via Renato Magi 5/a | Tel. 0578 55993</div></div></div><div class="local-item"><div class="local-icon">🍞</div><div><div class="local-name">Forno Clementi</div><div class="local-info">Via dei Forni | Tel. 0578 55692</div></div></div><div class="local-item"><div class="local-icon">🍞</div><div><div class="local-name">Forno Pane Dolci Prodotti Tipici</div><div class="local-info">Via Roma 18 | Tel. 334 310 7080</div></div></div>`,
+    food: `<div class="local-item"><div class="local-icon">🍽️</div><div><div class="local-name">Il Mondo del Rossi</div><div class="local-info">Via Roma 37 | Tel. 339 640 3499</div></div></div><div class="local-item"><div class="local-icon">🍷</div><div><div class="local-name">Ristorante La Grotta</div><div class="local-info">Piazza Sant'Agata 12 | Tel. 0578 55866</div></div></div><div class="local-item"><div class="local-icon">🥂</div><div><div class="local-name">Al Tocco</div><div class="local-info">Panoramic wine bar — Piazza San Pietro</div></div></div>`,
+    visit: `<div class="local-item"><div class="local-icon">📱</div><div><div class="local-name">Visit Radicofani App</div><div class="local-info"><a href="https://apps.apple.com/it/app/visit-radicofani/id1503467853" style="color:#c9956a">Download for iOS</a> &nbsp;|&nbsp; <a href="https://play.google.com/store/apps/details?id=com.ettsolutions.radicofani" style="color:#c9956a">Download for Android</a></div></div></div><div class="local-item"><div class="local-icon">🌐</div><div><div class="local-name">Official website</div><div class="local-info"><a href="https://www.vacanzevaldorcia.it" style="color:#c9956a">www.vacanzevaldorcia.it</a></div></div></div>`,
+    host: `<div class="contact-row"><span style="font-size:1.4em">😊</span><div><div class="contact-name">Marco</div><div class="contact-role">Tel/WhatsApp</div></div><div class="contact-num">348 3620431</div></div><div class="contact-row"><span style="font-size:1.4em">😊</span><div><div class="contact-name">Matilde</div><div class="contact-role">Tel/WhatsApp</div></div><div class="contact-num">380 2078746</div></div>`,
+    tech: `<div class="contact-row"><span style="font-size:1.4em">🚔</span><div><div class="contact-name">Carabinieri Radicofani</div></div><div class="contact-num">0578 55003</div></div><div class="contact-row"><span style="font-size:1.4em">💊</span><div><div class="contact-name">Pharmacy</div><div class="contact-role">Via del Maccione 6</div></div><div class="contact-num">0578 55888</div></div><div class="contact-row"><span style="font-size:1.4em">🏥</span><div><div class="contact-name">A&E – Montepulciano</div></div><div class="contact-num">0578 713111</div></div><div class="contact-row"><span style="font-size:1.4em">🏥</span><div><div class="contact-name">A&E – Abbadia S.S.</div></div><div class="contact-num">0577 7731</div></div><div class="contact-row"><span style="font-size:1.4em">👨‍⚕️</span><div><div class="contact-name">Out of Hours GP</div></div><div class="contact-num">116 117</div></div><div class="contact-row"><span style="font-size:1.4em">🚑</span><div><div class="contact-name">Misericordia Radicofani</div></div><div class="contact-num">0578 55943</div></div><div class="contact-row"><span style="font-size:1.4em">ℹ️</span><div><div class="contact-name">Tourist Office</div><div class="contact-role">Via Renato Magi, 31</div></div><div class="contact-num">0578 55684</div></div>`
+  }
+];
+
+function openGuide(i) {
+  const p = props[i], t = themes[i];
+  document.getElementById('guide').style.setProperty('--accent', t.accent);
+  document.getElementById('guide').style.setProperty('--header-bg', t.headerBg);
+  document.getElementById('g-icon').textContent = p.icon;
+  document.getElementById('g-name').textContent = p.name;
+  document.getElementById('g-addr').textContent = p.addr;
+  document.getElementById('wifi-name').textContent = p.wifi.name;
+  document.getElementById('wifi-pass').textContent = p.wifi.pass;
+  document.getElementById('tv-info').innerHTML = p.tv;
+  document.getElementById('ac-info').innerHTML = p.ac;
+  document.getElementById('checkin-info').innerHTML = p.checkin;
+  document.getElementById('smoke-info').innerHTML = p.smoke;
+  document.getElementById('keys-info').innerHTML = p.keys;
+  document.getElementById('boiler-info').innerHTML = p.boiler;
+  document.getElementById('waste-info').innerHTML = p.waste;
+  document.getElementById('parking-info').innerHTML = p.parking;
+  document.getElementById('shops-info').innerHTML = p.shops;
+  document.getElementById('food-info').innerHTML = p.food;
+  document.getElementById('visit-info').innerHTML = p.visit;
+  document.getElementById('host-info').innerHTML = p.host;
+  document.getElementById('tech-info').innerHTML = p.tech;
+  showTab(0);
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('guide').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  document.getElementById('guide').style.display = 'none';
+  document.getElementById('home').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function showTab(n) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === n));
+  document.querySelectorAll('.section').forEach((s, i) => s.classList.toggle('active', i === n));
+}
+</script>
+</body>
+</html>
